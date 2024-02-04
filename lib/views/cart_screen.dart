@@ -255,7 +255,10 @@ class _CartScreenState extends State<CartScreen> {
                                                         255, 252, 187, 102)),
                                           ),
                                           onPressed: () {
-                                            
+                                         //   cartController.snack(index);
+
+                                            Get.back();
+                                            // Navigator.pop(context);
                                           },
                                           child: const Center(
                                             child: Padding(

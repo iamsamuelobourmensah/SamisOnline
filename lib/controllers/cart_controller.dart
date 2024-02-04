@@ -40,6 +40,26 @@ class CartController extends GetxController {
       cartQuantity -= 1;
     }
   }
+   void deleteCard(Products cardId) {
+    cardScreenList.remove(cardId);
+    if (cardId.price >= 1) {
+      totalPrice - cardId.price;
+    }
+  }
+
+//   void snack(index) {
+//     Get.snackbar(
+//   'Title',
+//   'This is a snackbar message',
+//   snackPosition: SnackPosition.BOTTOM, // Set the position of the snackbar
+//   duration: const Duration(seconds: 3), // Set the duration for which the snackbar will be visible
+//   backgroundColor: Colors.grey[800], // Set the background color of the snackbar
+//   colorText: Colors.white, // Set the text color of the snackbar
+//   borderRadius: 10.0, // Set the border radius of the snackbar
+//   margin: const EdgeInsets.all(10.0), // Set the margin around the snackbar
+//   padding: const EdgeInsets.all(20.0), // Set the padding inside the snackbar
+// );
+//   }
   // copied
   // double _totalPrice = 0.0;
   // double get totalPrice => _totalPrice;
@@ -95,10 +115,5 @@ class CartController extends GetxController {
 
 //   } NOT USING CURRENTLY
 
-  void deleteCard(Products cardId) {
-    cardScreenList.remove(cardId);
-    if (cardId.price >= 1) {
-      totalPrice - cardId.price;
-    }
-  }
+ 
 }
