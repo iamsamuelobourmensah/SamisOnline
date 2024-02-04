@@ -1,7 +1,14 @@
-import 'package:ecommerce_4/views/home_page.dart';
+import 'package:ecommerce_4/models/product_model.dart';
+import 'package:ecommerce_4/views/main_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+
+  await Hive.openBox<int>('cartQuantity');
+  await Hive.openBox<Products>("mycart");
+
   runApp(const MyApp());
 }
 
@@ -32,8 +39,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const MainScreen(),
     );
   }
 }
-

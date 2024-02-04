@@ -1,8 +1,12 @@
+import 'package:ecommerce_4/controllers/cart_controller.dart';
 import 'package:ecommerce_4/controllers/product_controller.dart';
+import 'package:ecommerce_4/controllers/wishlist_controller.dart';
 import 'package:ecommerce_4/models/product_model.dart';
+import 'package:ecommerce_4/views/cart_screen.dart';
 import 'package:ecommerce_4/views/details_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,82 +22,147 @@ class _HomePageState extends State<HomePage> {
     ProductController().fetchProduct();
   }
 
+  final CartController cartController = Get.put(CartController());
+  final WishlistController wishlistController = Get.put(WishlistController());
+
   int isSelected = 0;
   int isSelectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        currentIndex: isSelectedIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-            backgroundColor: Color.fromARGB(255, 248, 212, 224),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   showSelectedLabels: true,
+      //   showUnselectedLabels: true,
+      //   currentIndex: isSelectedIndex,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: "Home",
+      //       backgroundColor: Color.fromARGB(255, 248, 212, 224),
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.favorite_outline_outlined), label: "WishList"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.person_2_outlined), label: "Profile"),
+      //   ],
+      //   landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+      //   onTap: (int index) {
+      //     _navigateToPage(context, index);
+      //   },
+      //   selectedItemColor: Colors.white,
+      //   unselectedItemColor: Colors.grey,
+      // ),
+      appBar: AppBar(
+        actions: [
+          Stack(
+            children: [
+              Obx(
+                () => Text(
+                  " ${cartController.cardScreenList.length}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 252, 187, 102),
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.shopping_cart_outlined)),
+            ],
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_outline_outlined), label: "Favorite"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person_2_outlined), label: "Profile"),
         ],
-        landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
-        onTap: (int index) {
-          _navigateToPage(context, index);
-        },
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
+        title: const Text(
+          "StylePoint.",
+          style: TextStyle(
+              color: Color.fromARGB(255, 252, 187, 102),
+              fontSize: 25,
+              fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        backgroundColor: const Color.fromARGB(255, 248, 212, 224),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10), // Adjust the radius as needed
+            bottomRight: Radius.circular(10), // Adjust the radius as needed
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: MediaQuery.sizeOf(context).width / 1,
-                    height: MediaQuery.sizeOf(context).height * .09,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 248, 212, 224),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15)),
-                    ),
-                    child: Row(
-                      // Pink container
-                      children: [
-                        IconButton(
-                            onPressed: () {}, icon: const Icon(Icons.menu)),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width / 6.5,
-                        ),
-                        const Text(
-                          "StylePoint.",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 252, 187, 102),
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width * .15,
-                        ),
-                        // IconButton(
-                        //     onPressed: () {},
-                        //     icon: const Icon(Icons.notifications_none_outlined)),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.shopping_cart_outlined)),
-                      ],
-                    ),
-                  ),
-                ],
-              ), // END OF PINK CONTAINER
+              // Row(
+              //   children: [
+              //     Container(
+              //       width: MediaQuery.sizeOf(context).width / 1,
+              //       height: MediaQuery.sizeOf(context).height * .09,
+              //       decoration: const BoxDecoration(
+              //         color: Color.fromARGB(255, 248, 212, 224),
+              //         borderRadius: BorderRadius.only(
+              //             bottomLeft: Radius.circular(15),
+              //             bottomRight: Radius.circular(15)),
+              //       ),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //         // Pink container
+              //         children: [
+              //           IconButton(
+              //               onPressed: () {}, icon: const Icon(Icons.menu)),
+              //           // SizedBox(
+              //           //   width: MediaQuery.sizeOf(context).width / 6.5,
+              //           // ),
+              //           const Text(
+              //             "StylePoint.",
+              //             style: TextStyle(
+              //                 color: Color.fromARGB(255, 252, 187, 102),
+              //                 fontSize: 25,
+              //                 fontWeight: FontWeight.bold),
+              //           ),
+              //           // SizedBox(
+              //           //   width: MediaQuery.sizeOf(context).width * .15,
+              //           // ),
+              //           // IconButton(
+              //           //     onPressed: () {},
+              //           //     icon: const Icon(Icons.notifications_none_outlined)),
+              //           Stack(
+              //             children: [
+              //               Obx(
+              //                 () => Text(
+              //                   " ${cartController.cardScreenList.length}",
+              //                   style: const TextStyle(
+              //                     fontSize: 16,
+              //                     color: Color.fromARGB(255, 252, 187, 102),
+              //                   ),
+              //                 ),
+              //               ),
+              //               IconButton(
+              //                   onPressed: () {
+              //                     Navigator.push(
+              //                       context,
+              //                       MaterialPageRoute(
+              //                           builder: (context) =>
+              //                               const CartScreen()),
+              //                     );
+              //                   },
+              //                   icon: const Icon(Icons.shopping_cart_outlined)),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ), // END OF PINK CONTAINER
               SizedBox(
-                height: MediaQuery.sizeOf(context).height * .02,
+                height: MediaQuery.sizeOf(context).height * .01,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -138,14 +207,15 @@ class _HomePageState extends State<HomePage> {
                       // clipBehavior: Clip.none,
                       children: [
                         Container(
-                          height: MediaQuery.sizeOf(context).height * .27,
+                          height: MediaQuery.sizeOf(context).height * .25,
                           width: MediaQuery.sizeOf(context).width / 1,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(255, 248, 212, 224),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -153,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                                   "SALE",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 15,
+                                    fontSize: 20,
                                     color: Color.fromARGB(255, 252, 187, 102),
                                   ),
                                 ),
@@ -181,15 +251,20 @@ class _HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.bold)),
                                   ],
                                 ),
+                                // SizedBox(
+                                //   height:
+                                //       MediaQuery.sizeOf(context).height * .02,
+                                // ),
                                 const Text("Summer dress",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
-                                      fontSize: 14,
+                                      fontSize: 15,
                                     )),
-                                // SizedBox(
-                                //   height: MediaQuery.sizeOf(context).height * .02,
-                                // ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * .03,
+                                ),
                                 ElevatedButton(
                                     style: const ButtonStyle(
                                       shape: MaterialStatePropertyAll(
@@ -218,9 +293,9 @@ class _HomePageState extends State<HomePage> {
                             child: Image.asset("assets/images/girl.png")),
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height * .02,
-                    ),
+                    // SizedBox(
+                    //   height: MediaQuery.sizeOf(context).height * .00,
+                    // ),
                     const Text(
                       "Featured",
                       style: TextStyle(
@@ -258,19 +333,18 @@ class _HomePageState extends State<HomePage> {
                           }
 
                           return SizedBox(
-                              height: MediaQuery.sizeOf(context).height * .3,
+                              height: MediaQuery.sizeOf(context).height * .42,
                               child: GridView.builder(
                                   itemCount: data!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithMaxCrossAxisExtent(
                                           maxCrossAxisExtent: 200,
-                                          mainAxisExtent: 170,
+                                          mainAxisExtent: 212,
                                           mainAxisSpacing: 10,
                                           crossAxisSpacing: 0),
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
-                                        isSelected = index;
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -282,6 +356,7 @@ class _HomePageState extends State<HomePage> {
                                                     rating: data[index].rating,
                                                     description:
                                                         data[index].description,
+                                                    index: index,
                                                   )),
                                         );
                                       },
@@ -318,10 +393,28 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Positioned(
                                                       right: -1,
-                                                      child: IconButton(
-                                                          onPressed: () {},
+                                                      child: Obx(
+                                                        () => IconButton(
+                                                          onPressed: () {
+                                                            final Products
+                                                                cardId =
+                                                                data[index];
+                                                            wishlistController
+                                                                .addToWishlist(
+                                                                    cardId);
+                                                          },
                                                           icon: const Icon(
-                                                              Icons.favorite)))
+                                                              Icons.favorite),
+                                                          color: wishlistController
+                                                                  .wishlist
+                                                                  .contains(data[
+                                                                      index])
+                                                              ? const Color
+                                                                  .fromARGB(255,
+                                                                  252, 187, 102)
+                                                              : Colors.grey,
+                                                        ),
+                                                      ))
                                                 ],
                                               ),
                                               Text(
@@ -382,25 +475,28 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-void _navigateToPage(BuildContext context, int index) {
-  switch (index) {
-    case 0:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-      break;
-    case 2:
-      // Get.to(const CartScreen());
-      break;
-    case 3:
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => const DetailScreen()),
-      // );
-      break;
-  }
-}
+// void _navigateToPage(BuildContext context, int index) {
+//   switch (index) {
+//     case 0:
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => const HomePage()),
+//       );
+//       break;
+//     case 1:
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => const WishListScreen()),
+//       );
+//       break;
+//     case 2:
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => const CartScreen()),
+//       );
+//       break;
+//   }
+// }
 
 class RatingBarWidget extends StatelessWidget {
   final Rating rating;

@@ -1,4 +1,5 @@
 import 'package:ecommerce_4/controllers/cart_controller.dart';
+import 'package:ecommerce_4/controllers/wishlist_controller.dart';
 import 'package:ecommerce_4/models/product_model.dart';
 import 'package:ecommerce_4/views/home_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class DetailScreen extends StatefulWidget {
   final String description;
   final double price;
   final Rating rating;
+  final int index;
   const DetailScreen({
     super.key,
     required this.image,
@@ -17,6 +19,7 @@ class DetailScreen extends StatefulWidget {
     required this.description,
     required this.price,
     required this.rating,
+    required this.index,
   });
 
   @override
@@ -24,7 +27,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  final CartController c = Get.put(CartController());
+  final CartController cartController = Get.put(CartController());
+  final WishlistController wishlistController = Get.put(WishlistController());
+  // void addToCardScreen() {
+  //   // Products( title: widget.title, price: widget.price, description: widget.description, image: widget.image, rating: widget.rating, id: widget.index);
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +53,7 @@ class _DetailScreenState extends State<DetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-                height: MediaQuery.sizeOf(context).height * .3,
+                height: MediaQuery.sizeOf(context).height * .38,
                 child: Center(
                     child: Image.network(
                   widget.image,
@@ -69,7 +76,7 @@ class _DetailScreenState extends State<DetailScreen> {
               style: const TextStyle(
                   color: Colors.black,
                   // fontWeight: FontWeight.bold,
-                  fontSize: 10),
+                  fontSize: 13),
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .01,
@@ -149,7 +156,9 @@ class _DetailScreenState extends State<DetailScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(15)))),
                       backgroundColor: MaterialStatePropertyAll(
                           Color.fromARGB(255, 252, 187, 102))),
-                  onPressed: () {},
+                  onPressed: () {
+                   // cartController.addToCardScreen(widget.index);
+                  },
                   child: const Text(
                     "Add to Cart",
                     style: TextStyle(
